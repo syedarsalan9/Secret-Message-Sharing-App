@@ -29,7 +29,7 @@ git clone https://github.com/syedarsalan9/Secret-Message-Sharing-App.git
 Navigate to the project directory and install the required dependencies using Composer:
 
 ```
-cd encrypted-message-app
+cd Secret-Message-Sharing-App
 composer install
 ```
 ### 3. Set up the environment
