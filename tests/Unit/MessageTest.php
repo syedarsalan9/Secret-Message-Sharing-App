@@ -34,7 +34,7 @@ class MessageTest extends TestCase
     // Test for expired message
     public function test_message_expiry(): void
     {
-        // Message data banaya jisme expiry pehle ho chuki hai
+        //Create Message which was already expired
         $messageData = [
             'message' => Crypt::encrypt('This message has expired'),
             'recipient' => 'Jane Doe',
@@ -42,10 +42,10 @@ class MessageTest extends TestCase
             'is_read' => false
         ];
 
-        // Message ko database mein store kiya
+        //Store Message into database 
         $message = Message::create($messageData);
 
-        // Read request post ki
+        // Read request post
         $response = $this->postJson("/api/messages/{$message->id}/read");
 
         // Check for 404 status and appropriate error message
@@ -55,7 +55,7 @@ class MessageTest extends TestCase
 
     public function test_message_already_read(): void
     {
-        // Message create kiya aur is_read ko true set kiya
+        // Create Message and set is_read as true
         $messageData = [
             'message' => Crypt::encrypt('This message has already been read'),
             'recipient' => 'Jane Doe',
@@ -65,7 +65,7 @@ class MessageTest extends TestCase
 
         $message = Message::create($messageData);
 
-        // Read request send ki
+        // Read request send
         $response = $this->postJson("/api/messages/{$message->id}/read");
 
         // Assert ke response ka status 404 ho aur error message aaye
@@ -75,7 +75,7 @@ class MessageTest extends TestCase
 
     public function test_env_encryption_key(): void
     {
-        // Assert karein ke .env se decryption key successfully load ho gayi
+        // Assert that from .env is the encryption key is properly loaded or not
         $decryptionKey = env('ENCRYPTION_KEY');
 
         $this->assertNotNull($decryptionKey, 'Decryption key should not be null');

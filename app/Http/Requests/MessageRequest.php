@@ -26,7 +26,6 @@ class MessageRequest extends FormRequest
         return [
             'message' => 'required|string',
             'recipient' => 'required|string|max:255',
-            //'decryption_key' => 'required|string|max:255',
             'expires_at' => 'nullable|date|after:today',
         ];
     }
@@ -36,7 +35,6 @@ class MessageRequest extends FormRequest
         return [
             'message.required' => 'Message is required.',
             'recipient.required' => 'Recipient is required.',
-            //'decryption_key.required' => 'Decryption key is required.',
             'expires_at.after' => 'Expiry date must be a future date.',
         ];
     }

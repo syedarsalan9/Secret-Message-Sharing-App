@@ -37,16 +37,13 @@ class MessageService implements MessageServiceInterface
     {
         $this->messageRepository->delete($id);
     }
+    
     public function readMessage(int $id): string
     {
         $message = $this->messageRepository->findById($id);
 
         // Check for decryption key from environment
         $storedDecryptionKey = config('app.encryption_key');
-
-        // if ($message->decryption_key !== $decryptionKey) {
-        //     throw new InvalidDecryptionKeyException();
-        // }
 
         // Check if already read or expired
         if ($message->is_read || ($message->expires_at && $message->expires_at->isPast())) {
@@ -61,25 +58,4 @@ class MessageService implements MessageServiceInterface
         return $decryptedMessage;
     }
 
-    // public function readMessage(int $id, string $decryptionKey): string
-    // {
-    //     $message = $this->messageRepository->findById($id);
-
-    //     // Check for decryption key
-    //     if ($message->decryption_key !== $decryptionKey) {
-    //         throw new InvalidDecryptionKeyException();
-    //     }
-
-    //     // Check if already read or expired
-    //     if ($message->is_read || ($message->expires_at && $message->expires_at->isPast())) {
-    //         throw new MessageExpiredOrReadException();
-    //     }
-
-    //     // Decrypt message and mark as read
-    //     $decryptedMessage = Crypt::decrypt($message->message);
-    //     $message->is_read = true;
-    //     $message->save();
-
-    //     return $decryptedMessage;
-    // }
 }
