@@ -23,7 +23,10 @@ class MessageService implements MessageServiceInterface
         // Encrypt the message before storing
         $data['message'] = Crypt::encrypt($data['message']);
         $data['is_read'] = false;
-
+        // Check if 'expires_at' is not set, then add a default expiration (e.g., 1 hour from now)
+        if (empty($data['expires_at'])) {
+            $data['expires_at'] = now()->addHours(1);
+        }
         return $this->messageRepository->store($data);
     }
 
@@ -37,7 +40,7 @@ class MessageService implements MessageServiceInterface
     {
         $this->messageRepository->delete($id);
     }
-    
+
     public function readMessage(int $id): string
     {
         $message = $this->messageRepository->findById($id);
